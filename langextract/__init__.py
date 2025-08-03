@@ -36,6 +36,7 @@ from langextract import inference
 from langextract import io
 from langextract import prompting
 from langextract import resolver
+from langextract.resolver import ResolverParsingError
 from langextract import schema
 from langextract import visualization
 

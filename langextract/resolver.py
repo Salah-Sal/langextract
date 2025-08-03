@@ -345,9 +345,12 @@ class Resolver(AbstractResolver):
       if self.format_type == data.FormatType.YAML:
         parsed_data = yaml.safe_load(content)
       else:
-        parsed_data = json.loads(content)
+        try:
+          parsed_data = json.loads(content)
+        except json.JSONDecodeError as e:
+          raise ResolverParsingError(f"Failed to decode JSON: {e}. Content: '{content}'") from e
       logging.debug("Successfully parsed content.")
-    except (yaml.YAMLError, json.JSONDecodeError) as e:
+    except (yaml.YAMLError) as e:
       logging.exception("Failed to parse content.")
       raise ResolverParsingError("Failed to parse content.") from e
 
